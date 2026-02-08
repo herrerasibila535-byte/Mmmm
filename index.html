@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>OMNI ARCHIVE · Dragon Ball Multiverse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@300;400;700;900&family=Fira+Code:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --bg:#050508;
+ --glass:rgba(15,15,30,.75);
+ --border:rgba(255,255,255,.12);
+ --primary:#ffd166;
+ --danger:#ff4757;
+ --font-title:'Russo One',sans-serif;
+ --font-main:'Inter',sans-serif;
+ --font-tech:'Fira Code',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#fff;font-family:var(--font-main);overflow-x:hidden}
+
+.grid-bg{
+ position:fixed;inset:0;z-index:-2;
+ background:
+  linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+ background-size:32px 32px;
+}
+.glow{
+ position:fixed;inset:0;z-index:-1;
+ background:radial-gradient(circle at 50% -20%,rgba(255,209,102,.18),transparent 70%);
+}
+
+.hero{
+ min-height:80vh;
+ display:flex;
+ align-items:flex-end;
+ padding:clamp(1.5rem,5vw,4rem);
+ position:relative;
+}
+.hero video{
+ position:absolute;inset:0;
+ width:100%;height:100%;
+ object-fit:cover;
+ opacity:.45;
+ mask-image:linear-gradient(to bottom,black 60%,transparent);
+}
+.hero h1{
+ font-family:var(--font-title);
+ font-size:clamp(3rem,12vw,7rem);
+ background:linear-gradient(#fff,#888);
+ -webkit-background-clip:text;
+ color:transparent;
+}
+
+.controls{
+ display:grid;
+ grid-template-columns:1fr auto;
+ gap:1rem;
+ padding:1.5rem clamp(1rem,5vw,4rem);
+}
+input,select{
+ background:var(--glass);
+ border:1px solid var(--border);
+ padding:1rem;
+ border-radius:12px;
+ color:#fff;
+}
+
+.label{
+ padding:1rem clamp(1rem,5vw,4rem);
+ color:var(--primary);
+ font-size:.75rem;
+ font-weight:800;
+ letter-spacing:2px;
+}
+
+.scroll-x{
+ display:flex;
+ gap:1.2rem;
+ overflow-x:auto;
+ padding:0 clamp(1rem,5vw,4rem) 2rem;
+}
+.scroll-x::-webkit-scrollbar{display:none}
+
+.card{
+ min-width:280px;
+ height:160px;
+ border-radius:16px;
+ overflow:hidden;
+ border:1px solid var(--border);
+ position:relative;
+ transition:.4s;
+}
+.card:hover{transform:scale(1.05)}
+.card video{
+ width:100%;height:100%;
+ object-fit:cover;
+ opacity:.75;
+}
+.card span{
+ position:absolute;
+ bottom:0;
+ width:100%;
+ padding:.6rem;
+ background:linear-gradient(transparent,rgba(0,0,0,.9));
+ font-size:.8rem;
+}
+
+.relics{
+ margin:2rem clamp(1rem,5vw,4rem);
+ background:var(--glass);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:2rem;
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+ gap:1rem;
+}
+.relic{
+ border:1px solid var(--border);
+ border-radius:14px;
+ padding:1rem;
+ text-align:center;
+ font-family:var(--font-tech);
+ opacity:.25;
+ transition:.4s;
+}
+.relic.unlocked{
+ opacity:1;
+ border-color:var(--primary);
+ box-shadow:0 0 20px rgba(255,209,102,.4);
+}
+
+#cronista{
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ background:rgba(0,0,0,.9);
+ border:1px solid var(--primary);
+ border-radius:16px;
+ padding:1.2rem;
+ max-width:600px;
+ width:90%;
+ font-family:var(--font-tech);
+ color:var(--primary);
+ opacity:0;
+ pointer-events:none;
+ transition:.4s;
+}
+#cronista.active{opacity:1}
+
+body.corrupt{
+ animation:glitch .25s infinite;
+ filter:hue-rotate(90deg) contrast(1.5);
+}
+@keyframes glitch{
+ 0%{transform:translate(0)}
+ 33%{transform:translate(-4px,2px)}
+ 66%{transform:translate(4px,-2px)}
+}
+
+@media(max-width:768px){
+ .controls{grid-template-columns:1fr}
+ .hero{min-height:60vh}
+}
+</style>
+</head>
+
+<body onkeydown="if(event.key.toLowerCase()==='s')exportFile()">
+
+<div class="grid-bg"></div><div class="glow"></div>
+
+<section class="hero">
+ <video id="heroVideo" autoplay muted loop playsinline preload="metadata"
+  poster="https://placehold.co/1280x720?text=OMNI+ARCHIVE">
+  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+ </video>
+ <div>
+  <h1 id="heroTitle">OMNI ARCHIVE</h1>
+  <p id="heroDesc">El cronista registra cada fractura del multiverso.</p>
+ </div>
+</section>
+
+<section class="controls">
+ <input id="search" placeholder="Buscar registro…" oninput="handleSearch(this.value)">
+ <select onchange="changeUniverse(this.value)">
+  <option value="ALL">🌌 Multiverso</option>
+  <option value="DB">🐉 Dragon Ball</option>
+  <option value="DBZ">⚡ Dragon Ball Z</option>
+  <option value="DBS">🔥 Dragon Ball Super</option>
+  <option value="GT">⚙️ Dragon Ball GT</option>
+ </select>
+</section>
+
+<div class="label">ARCHIVOS VISUALES</div>
+<div class="scroll-x" id="media"></div>
+
+<div class="label">RELIQUIAS DEL MULTIVERSO</div>
+<div class="relics" id="relics"></div>
+
+<div id="cronista"></div>
+
+<script>
+/* ================= ESTADO ================= */
+const STATE={
+ universe:"ALL",
+ visited:new Set(),
+ corruption:0
+};
+
+const VIDEOS={
+ DB:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+ DBZ:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+ DBS:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+ GT:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+};
+
+const RELICS={
+ viajero:{name:"Ancla Temporal",desc:"Viajar entre universos"},
+ corrupto:{name:"Fragmento Corrupto",desc:"Provocar una fractura"},
+ archivista:{name:"Sello del Archivo",desc:"Exportar el archivo"}
+};
+
+let unlocked=JSON.parse(localStorage.getItem("relics")||"{}");
+
+/* ================= INIT ================= */
+renderMedia();
+renderRelics();
+speak("El archivo ha sido restaurado.");
+
+/* ================= MEDIA ================= */
+function renderMedia(){
+ media.innerHTML="";
+ Object.keys(VIDEOS).forEach(u=>{
+  media.innerHTML+=`
+   <div class="card">
+    <video autoplay muted loop playsinline preload="metadata"
+     poster="https://placehold.co/600x400?text=${u}">
+     <source src="${VIDEOS[u]}" type="video/mp4">
+    </video>
+    <span>${u}</span>
+   </div>`;
+ });
+}
+
+/* ================= RELIQUIAS ================= */
+function renderRelics(){
+ relics.innerHTML="";
+ for(const k in RELICS){
+  relics.innerHTML+=`
+   <div class="relic ${unlocked[k]?'unlocked':''}">
+    🜂
+    <strong>${RELICS[k].name}</strong>
+    <div>${RELICS[k].desc}</div>
+   </div>`;
+ }
+}
+
+function unlock(key){
+ if(unlocked[key])return;
+ unlocked[key]=true;
+ localStorage.setItem("relics",JSON.stringify(unlocked));
+ renderRelics();
+ speak("Reliquia recuperada: "+RELICS[key].name);
+}
+
+/* ================= BUSCADOR ================= */
+function handleSearch(val){
+ if(val.length>=3) unlock("viajero"); // intención real
+}
+
+/* ================= UNIVERSOS ================= */
+function changeUniverse(u){
+ if(STATE.universe!=="ALL" && u!==STATE.universe){
+  STATE.corruption++;
+  unlock("corrupto");
+  corrupt();
+ }
+ STATE.visited.add(u);
+ STATE.universe=u;
+ document.getElementById("heroVideo").src=VIDEOS[u]||VIDEOS.DB;
+ speak("Universo enfocado: "+u);
+ unlock("viajero");
+}
+
+/* ================= CRONISTA ================= */
+function speak(text){
+ cronista.classList.add("active");
+ cronista.textContent="";
+ let i=0;
+ const t=setInterval(()=>{
+  cronista.textContent+=text[i++];
+  if(i>=text.length){
+   clearInterval(t);
+   setTimeout(()=>cronista.classList.remove("active"),4500);
+  }
+ },30);
+}
+
+/* ================= CORRUPCIÓN ================= */
+function corrupt(){
+ document.body.classList.add("corrupt");
+ setTimeout(()=>document.body.classList.remove("corrupt"),1800);
+}
+
+/* ================= EXPORT ================= */
+function exportFile(){
+ unlock("archivista");
+ const blob=new Blob([document.documentElement.outerHTML],{type:"text/html"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="OMNI_ARCHIVE_EXPORT.html";
+ a.click();
+ speak("El archivo ha sido sellado.");
+}
+</script>
+</body>
+</html>
