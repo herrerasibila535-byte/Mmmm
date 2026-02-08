@@ -837,6 +837,304 @@ h1, h2, h3, h4 {
     font-family: var(--font-family-sub);
     font-size: 1rem;
 }
+   /* === ESTILO GENERAL === */
+:root {
+    --bg-dark: #1d1f20; /* Fondo oscuro */
+    --bg-light: #f4f4f4; /* Fondo claro */
+    --accent-color: #f4d03f; /* Amarillo dorado */
+    --highlight-color: #e74c3c; /* Rojo fuego */
+    --border-color: #d35400; /* Naranja oscuro */
+    --text-color: #f0f0f0; /* Blanco suave */
+    --font-family-main: 'Press Start 2P', cursive; /* Tipografía retro pixelada */
+    --font-family-sub: 'Fira Sans', sans-serif; /* Fuente secundaria moderna */
+    --shadow-color: rgba(0,0,0,0.5); /* Sombra suave */
+    --glitch-color: #ff0055; /* Color del glitch (rojo) */
+}
+
+/* === FUENTES === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&display=swap');
+
+/* === BODY === */
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: var(--font-family-sub);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-family-main);
+    color: var(--accent-color);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px var(--highlight-color);
+}
+
+/* === HEADER (HERO SECTION) === */
+.hero {
+    height: 80vh;
+    background: url('https://example.com/dragonball-hero-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: var(--text-color);
+    padding: 0 5%;
+    box-shadow: 0 0 15px var(--shadow-color);
+}
+
+.hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    text-align: center;
+    background: linear-gradient(to bottom, var(--highlight-color), var(--accent-color));
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 10px var(--highlight-color);
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 10;
+    padding-bottom: 2rem;
+}
+
+/* === SECCIÓN PERSONAJES === */
+.section-label {
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    padding: 1rem;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px var(--highlight-color);
+}
+
+.scroll-x {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem 5% 2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--bg-dark);
+}
+
+.scroll-x::-webkit-scrollbar {
+    height: 6px;
+}
+
+.scroll-x::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.char-node {
+    flex: 0 0 auto;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.char-node:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--highlight-color);
+    filter: brightness(1.3);
+}
+
+.char-node img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.char-node img:hover {
+    transform: scale(1.1);
+}
+
+.char-node span {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* === CARDS (NETFLIX STYLE) === */
+.media-grid {
+    display: flex;
+    gap: 1rem;
+    padding: 2rem 5%;
+    overflow-x: auto;
+}
+
+.netflix-card {
+    min-width: 260px;
+    height: 150px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.netflix-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--highlight-color);
+}
+
+.netflix-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.netflix-card .info {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--accent-color);
+}
+
+/* === ÁRBOL DE DATOS (WIKI) === */
+.wiki-tree {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem 5%;
+    box-shadow: 0 0 15px var(--shadow-color);
+}
+
+.node-item {
+    margin-bottom: 1rem;
+    padding-left: 15px;
+    border-left: 3px solid var(--border-color);
+}
+
+.node-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: var(--font-family-main);
+    padding: 10px;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.node-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--highlight-color);
+}
+
+.node-content {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: max-height 0.3s ease;
+}
+
+.node-item.open > .node-content {
+    max-height: 300px;
+    padding: 10px 0;
+}
+
+.node-item.highlight {
+    border-left-color: var(--highlight-color);
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* === CRONISTA (IA NARRATIVA) === */
+#narrator {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#narrator.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ia-icon {
+    color: var(--highlight-color);
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+.ia-text {
+    font-family: var(--font-family-sub);
+    font-size: 1rem;
+}
+
+/* === EFECTO GLITCH === */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    33% {
+        transform: translate(-5px, 2px);
+    }
+    66% {
+        transform: translate(5px, -2px);
+    }
+}
+
+body.corrupt {
+    animation: glitch 0.3s infinite;
+    filter: hue-rotate(90deg) contrast(1.5);
+}
+
+/* === ANIMACIONES === */
+@keyframes pulse {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* === MEDIA QUERIES (RESPONSIVE) === */
+@media (max-width: 768px) {
+    .hero {
+        height: 60vh;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 6vw, 4rem);
+    }
+
+    .media-grid {
+        flex-direction: column;
+    }
+
+    .scroll-x {
+        flex-direction: column;
+    }
+   }
 
 /* === ANIMACIONES === */
 @keyframes pulse {
