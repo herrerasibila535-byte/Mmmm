@@ -2,321 +2,599 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>OMNI ARCHIVE · Dragon Ball Multiverse</title>
+<title>📜 Omni Archivo del Multiverso</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@300;400;700;900&family=Fira+Code:wght@300;500&display=swap" rel="stylesheet">
-
 <style>
+/* =========================
+   VARIABLES GLOBALES
+========================= */
 :root{
- --bg:#050508;
- --glass:rgba(15,15,30,.75);
- --border:rgba(255,255,255,.12);
- --primary:#ffd166;
- --danger:#ff4757;
- --font-title:'Russo One',sans-serif;
- --font-main:'Inter',sans-serif;
- --font-tech:'Fira Code',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:#fff;font-family:var(--font-main);overflow-x:hidden}
-
-.grid-bg{
- position:fixed;inset:0;z-index:-2;
- background:
-  linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
- background-size:32px 32px;
-}
-.glow{
- position:fixed;inset:0;z-index:-1;
- background:radial-gradient(circle at 50% -20%,rgba(255,209,102,.18),transparent 70%);
+ --bg:#05050a;
+ --panel:#0d0d18;
+ --panel2:#121226;
+ --text:#e6e6f0;
+ --glow:#7cc9ff;
+ --gold:#d4af37;
+ --danger:#ff3b3b;
 }
 
-.hero{
- min-height:80vh;
- display:flex;
- align-items:flex-end;
- padding:clamp(1.5rem,5vw,4rem);
- position:relative;
-}
-.hero video{
- position:absolute;inset:0;
- width:100%;height:100%;
- object-fit:cover;
- opacity:.45;
- mask-image:linear-gradient(to bottom,black 60%,transparent);
-}
-.hero h1{
- font-family:var(--font-title);
- font-size:clamp(3rem,12vw,7rem);
- background:linear-gradient(#fff,#888);
- -webkit-background-clip:text;
- color:transparent;
+/* =========================
+   RESET
+========================= */
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
 }
 
-.controls{
- display:grid;
- grid-template-columns:1fr auto;
- gap:1rem;
- padding:1.5rem clamp(1rem,5vw,4rem);
-}
-input,select{
- background:var(--glass);
- border:1px solid var(--border);
- padding:1rem;
- border-radius:12px;
- color:#fff;
+/* =========================
+   BODY
+========================= */
+body{
+ background:radial-gradient(circle at top,#0a0a18,#000);
+ color:var(--text);
+ font-family:system-ui,Segoe UI,Roboto,Arial;
+ min-height:100vh;
+ overflow-x:hidden;
 }
 
-.label{
- padding:1rem clamp(1rem,5vw,4rem);
- color:var(--primary);
- font-size:.75rem;
- font-weight:800;
+/* =========================
+   HEADER
+========================= */
+header{
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:rgba(0,0,0,.75);
+ backdrop-filter:blur(10px);
+ border-bottom:1px solid #1b1b2a;
+}
+header h1{
+ text-align:center;
+ padding:14px;
  letter-spacing:2px;
+ font-weight:600;
 }
 
-.scroll-x{
- display:flex;
- gap:1.2rem;
- overflow-x:auto;
- padding:0 clamp(1rem,5vw,4rem) 2rem;
-}
-.scroll-x::-webkit-scrollbar{display:none}
-
-.card{
- min-width:280px;
- height:160px;
- border-radius:16px;
- overflow:hidden;
- border:1px solid var(--border);
+/* =========================
+   HERO VIDEO
+========================= */
+#hero{
  position:relative;
- transition:.4s;
+ height:42vh;
+ background:#000;
+ overflow:hidden;
 }
-.card:hover{transform:scale(1.05)}
-.card video{
- width:100%;height:100%;
- object-fit:cover;
- opacity:.75;
-}
-.card span{
- position:absolute;
- bottom:0;
+#hero video{
  width:100%;
- padding:.6rem;
- background:linear-gradient(transparent,rgba(0,0,0,.9));
- font-size:.8rem;
+ height:100%;
+ object-fit:cover;
+}
+#hero::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(to bottom,transparent 60%,#000);
 }
 
-.relics{
- margin:2rem clamp(1rem,5vw,4rem);
- background:var(--glass);
- border:1px solid var(--border);
- border-radius:20px;
- padding:2rem;
+/* =========================
+   CONTROLS
+========================= */
+#controls{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ justify-content:center;
+ padding:14px;
+ background:var(--panel);
+ border-bottom:1px solid #1b1b2a;
+}
+button,input{
+ background:var(--panel2);
+ border:1px solid #24244a;
+ color:var(--text);
+ padding:10px 14px;
+ border-radius:8px;
+ font-size:14px;
+}
+button:hover{
+ border-color:var(--glow);
+ box-shadow:0 0 8px #7cc9ff33;
+ cursor:pointer;
+}
+input{
+ min-width:180px;
+}
+
+/* =========================
+   CRONISTA
+========================= */
+#cronista{
+ margin:14px;
+ padding:16px;
+ background:#0b0b18;
+ border-left:4px solid var(--glow);
+ font-style:italic;
+ line-height:1.4;
+ box-shadow:0 0 18px #000;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+section{
+ margin:14px;
+ padding:16px;
+ background:var(--panel);
+ border-radius:12px;
+ box-shadow:0 0 25px #000;
+}
+section h2{
+ margin-bottom:12px;
+ letter-spacing:1px;
+}
+
+/* =========================
+   RELIQUIAS
+========================= */
+#relics{
  display:grid;
- grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
- gap:1rem;
+ grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+ gap:12px;
 }
 .relic{
- border:1px solid var(--border);
- border-radius:14px;
- padding:1rem;
- text-align:center;
- font-family:var(--font-tech);
- opacity:.25;
- transition:.4s;
+ background:#0b0b16;
+ border:1px solid #222;
+ border-radius:10px;
+ padding:12px;
+ opacity:.35;
+ transition:.3s;
 }
 .relic.unlocked{
  opacity:1;
- border-color:var(--primary);
- box-shadow:0 0 20px rgba(255,209,102,.4);
+ border-color:var(--gold);
+ box-shadow:0 0 14px #d4af3740;
+}
+.relic h4{
+ margin-bottom:6px;
+ color:var(--gold);
+}
+.relic p{
+ font-size:13px;
+ opacity:.85;
 }
 
-#cronista{
- position:fixed;
- bottom:20px;
- left:50%;
- transform:translateX(-50%);
- background:rgba(0,0,0,.9);
- border:1px solid var(--primary);
- border-radius:16px;
- padding:1.2rem;
- max-width:600px;
- width:90%;
- font-family:var(--font-tech);
- color:var(--primary);
- opacity:0;
- pointer-events:none;
- transition:.4s;
-}
-#cronista.active{opacity:1}
-
-body.corrupt{
- animation:glitch .25s infinite;
- filter:hue-rotate(90deg) contrast(1.5);
+/* =========================
+   CORRUPCIÓN VISUAL
+========================= */
+.corrupt{
+ animation:glitch .15s infinite;
 }
 @keyframes glitch{
  0%{transform:translate(0)}
- 33%{transform:translate(-4px,2px)}
- 66%{transform:translate(4px,-2px)}
+ 25%{transform:translate(1px,-1px)}
+ 50%{transform:translate(-1px,1px)}
+ 75%{transform:translate(2px,0)}
 }
 
-@media(max-width:768px){
- .controls{grid-template-columns:1fr}
- .hero{min-height:60vh}
+/* =========================
+   FOOTER
+========================= */
+footer{
+ text-align:center;
+ padding:20px;
+ opacity:.45;
+ font-size:13px;
 }
 </style>
 </head>
 
-<body onkeydown="if(event.key.toLowerCase()==='s')exportFile()">
+<body>
 
-<div class="grid-bg"></div><div class="glow"></div>
+<header>
+<h1>📜 OMNI ARCHIVO DEL MULTIVERSO</h1>
+</header>
 
-<section class="hero">
- <video id="heroVideo" autoplay muted loop playsinline preload="metadata"
-  poster="https://placehold.co/1280x720?text=OMNI+ARCHIVE">
-  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
- </video>
- <div>
-  <h1 id="heroTitle">OMNI ARCHIVE</h1>
-  <p id="heroDesc">El cronista registra cada fractura del multiverso.</p>
- </div>
+<!-- =========================
+     HERO VIDEO
+========================= -->
+<div id="hero">
+<video id="heroVideo" autoplay muted loop playsinline>
+ <source src="" type="video/mp4">
+</video>
+</div>
+
+<!-- =========================
+     CONTROLES
+========================= -->
+<div id="controls">
+<button onclick="changeUniverse('DB')">DB</button>
+<button onclick="changeUniverse('DBZ')">DBZ</button>
+<button onclick="changeUniverse('DBS')">DBS</button>
+<button onclick="changeUniverse('GT')">GT</button>
+<button onclick="changeUniverse('ALL')">ALL</button>
+<input placeholder="Buscar registro…" oninput="handleSearch(this.value)">
+<button onclick="exportFile()">Exportar Archivo</button>
+</div>
+
+<!-- =========================
+     CRONISTA
+========================= -->
+<div id="cronista">
+El archivo yace en silencio. Ningún universo ha sido perturbado.
+</div>
+
+<!-- =========================
+     RELIQUIAS
+========================= -->
+<section>
+<h2>Reliquias del Archivo</h2>
+<div id="relics"></div>
 </section>
 
-<section class="controls">
- <input id="search" placeholder="Buscar registro…" oninput="handleSearch(this.value)">
- <select onchange="changeUniverse(this.value)">
-  <option value="ALL">🌌 Multiverso</option>
-  <option value="DB">🐉 Dragon Ball</option>
-  <option value="DBZ">⚡ Dragon Ball Z</option>
-  <option value="DBS">🔥 Dragon Ball Super</option>
-  <option value="GT">⚙️ Dragon Ball GT</option>
- </select>
-</section>
-
-<div class="label">ARCHIVOS VISUALES</div>
-<div class="scroll-x" id="media"></div>
-
-<div class="label">RELIQUIAS DEL MULTIVERSO</div>
-<div class="relics" id="relics"></div>
-
-<div id="cronista"></div>
+<footer>
+Archivo sellado fuera del tiempo · Omni Archive
+</footer>
 
 <script>
-/* ================= ESTADO ================= */
-const STATE={
- universe:"ALL",
- visited:new Set(),
+/* ======================================================
+   ESTADO GLOBAL PERSISTENTE
+====================================================== */
+const STATE = JSON.parse(localStorage.getItem("STATE")) || {
+ current:"ALL",
+ history:[],
  corruption:0
 };
 
+/* ======================================================
+   VIDEOS MP4 REALES
+====================================================== */
 const VIDEOS={
  DB:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
- DBZ:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
- DBS:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
- GT:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+ DBZ:"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+ DBS:"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+ GT:"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+ ALL:"https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 };
 
+/* ======================================================
+   RELIQUIAS / LOGROS
+====================================================== */
 const RELICS={
- viajero:{name:"Ancla Temporal",desc:"Viajar entre universos"},
- corrupto:{name:"Fragmento Corrupto",desc:"Provocar una fractura"},
- archivista:{name:"Sello del Archivo",desc:"Exportar el archivo"}
+ explorador:{
+  name:"Ojo del Cronista",
+  desc:"Has explorado los registros del archivo."
+ },
+ viajero:{
+  name:"Ancla Temporal",
+  desc:"Has viajado entre universos."
+ },
+ corruptor:{
+  name:"Fragmento Prohibido",
+  desc:"Has cruzado líneas temporales."
+ },
+ archivista:{
+  name:"Sello del Archivo",
+  desc:"Has exportado el archivo completo."
+ }
 };
 
-let unlocked=JSON.parse(localStorage.getItem("relics")||"{}");
+let unlocked = JSON.parse(localStorage.getItem("RELICS")) || {};
 
-/* ================= INIT ================= */
-renderMedia();
+/* ======================================================
+   INICIALIZACIÓN
+====================================================== */
 renderRelics();
-speak("El archivo ha sido restaurado.");
+setHeroVideo(VIDEOS[STATE.current]);
 
-/* ================= MEDIA ================= */
-function renderMedia(){
- media.innerHTML="";
- Object.keys(VIDEOS).forEach(u=>{
-  media.innerHTML+=`
-   <div class="card">
-    <video autoplay muted loop playsinline preload="metadata"
-     poster="https://placehold.co/600x400?text=${u}">
-     <source src="${VIDEOS[u]}" type="video/mp4">
-    </video>
-    <span>${u}</span>
-   </div>`;
- });
+/* ======================================================
+   VIDEO SEGURO
+====================================================== */
+function setHeroVideo(src){
+ const v=document.getElementById("heroVideo");
+ v.pause();
+ v.innerHTML=`<source src="${src}" type="video/mp4">`;
+ v.load();
+ v.play().catch(()=>{});
 }
 
-/* ================= RELIQUIAS ================= */
-function renderRelics(){
- relics.innerHTML="";
- for(const k in RELICS){
-  relics.innerHTML+=`
-   <div class="relic ${unlocked[k]?'unlocked':''}">
-    🜂
-    <strong>${RELICS[k].name}</strong>
-    <div>${RELICS[k].desc}</div>
-   </div>`;
- }
+/* ======================================================
+   REGLA REAL DE CORRUPCIÓN
+====================================================== */
+function shouldCorrupt(next){
+ return STATE.history.length>0 &&
+        next!==STATE.current &&
+        STATE.current!=="ALL" &&
+        next!=="ALL";
 }
 
-function unlock(key){
- if(unlocked[key])return;
- unlocked[key]=true;
- localStorage.setItem("relics",JSON.stringify(unlocked));
- renderRelics();
- speak("Reliquia recuperada: "+RELICS[key].name);
-}
-
-/* ================= BUSCADOR ================= */
-function handleSearch(val){
- if(val.length>=3) unlock("viajero"); // intención real
-}
-
-/* ================= UNIVERSOS ================= */
-function changeUniverse(u){
- if(STATE.universe!=="ALL" && u!==STATE.universe){
+/* ======================================================
+   CAMBIO DE UNIVERSO
+====================================================== */
+function changeUniverse(next){
+ if(shouldCorrupt(next)){
   STATE.corruption++;
-  unlock("corrupto");
-  corrupt();
+  unlock("corruptor");
+  document.body.classList.add("corrupt");
+  setTimeout(()=>document.body.classList.remove("corrupt"),600);
+  speak("Las realidades se superponen. El archivo se resiente.");
  }
- STATE.visited.add(u);
- STATE.universe=u;
- document.getElementById("heroVideo").src=VIDEOS[u]||VIDEOS.DB;
- speak("Universo enfocado: "+u);
+
+ if(!STATE.history.includes(next) && next!=="ALL"){
+  STATE.history.push(next);
+ }
+
+ STATE.current=next;
+ saveState();
+ setHeroVideo(VIDEOS[next]);
  unlock("viajero");
+ speak("El cronista observa el universo "+next+".");
 }
 
-/* ================= CRONISTA ================= */
-function speak(text){
- cronista.classList.add("active");
- cronista.textContent="";
- let i=0;
- const t=setInterval(()=>{
-  cronista.textContent+=text[i++];
-  if(i>=text.length){
-   clearInterval(t);
-   setTimeout(()=>cronista.classList.remove("active"),4500);
-  }
- },30);
+/* ======================================================
+   BUSCADOR
+====================================================== */
+function handleSearch(v){
+ if(v.length>=3){
+  unlock("explorador");
+ }
 }
 
-/* ================= CORRUPCIÓN ================= */
-function corrupt(){
- document.body.classList.add("corrupt");
- setTimeout(()=>document.body.classList.remove("corrupt"),1800);
+/* ======================================================
+   LOGROS
+====================================================== */
+function unlock(k){
+ if(unlocked[k]) return;
+ unlocked[k]=true;
+ localStorage.setItem("RELICS",JSON.stringify(unlocked));
+ renderRelics();
+ speak("Reliquia recuperada: "+RELICS[k].name);
 }
 
-/* ================= EXPORT ================= */
+/* ======================================================
+   RENDER RELIQUIAS
+====================================================== */
+function renderRelics(){
+ const c=document.getElementById("relics");
+ c.innerHTML="";
+ for(const k in RELICS){
+  const r=document.createElement("div");
+  r.className="relic"+(unlocked[k]?" unlocked":"");
+  r.innerHTML=
+   "<h4>"+RELICS[k].name+"</h4>"+
+   "<p>"+RELICS[k].desc+"</p>";
+  c.appendChild(r);
+ }
+}
+
+/* ======================================================
+   CRONISTA
+====================================================== */
+function speak(t){
+ document.getElementById("cronista").textContent=t;
+}
+
+/* ======================================================
+   EXPORTAR ARCHIVO
+====================================================== */
 function exportFile(){
  unlock("archivista");
- const blob=new Blob([document.documentElement.outerHTML],{type:"text/html"});
+ const blob=new Blob(
+  [document.documentElement.outerHTML],
+  {type:"text/html"}
+ );
  const a=document.createElement("a");
  a.href=URL.createObjectURL(blob);
- a.download="OMNI_ARCHIVE_EXPORT.html";
+ a.download="OMNI_ARCHIVO_EXPORTADO.html";
  a.click();
- speak("El archivo ha sido sellado.");
+ speak("El archivo ha sido sellado y duplicado.");
+}
+
+/* ======================================================
+   GUARDAR ESTADO
+====================================================== */
+function saveState(){
+ localStorage.setItem("STATE",JSON.stringify(STATE));
 }
 </script>
+
+<!-- =========================
+     RELIQUIAS / LOGROS
+========================= -->
+<section>
+  <h2>Reliquias del Archivo</h2>
+  <div id="relics"></div>
+</section>
+
+<!-- =========================
+     CONTROLES DE EXPORTACIÓN
+========================= -->
+<div id="controls">
+  <button onclick="changeUniverse('DB')">DB</button>
+  <button onclick="changeUniverse('DBZ')">DBZ</button>
+  <button onclick="changeUniverse('DBS')">DBS</button>
+  <button onclick="changeUniverse('GT')">GT</button>
+  <button onclick="changeUniverse('ALL')">ALL</button>
+  <input placeholder="Buscar registro..." oninput="handleSearch(this.value)">
+  <button onclick="exportFile()">Exportar Archivo</button>
+</div>
+
+<!-- =========================
+     CRONISTA (Narrativa Reactiva)
+========================= -->
+<div id="cronista">
+  El archivo yace en silencio. Ningún universo ha sido perturbado.
+</div>
+
+<!-- =========================
+     FOOTER (Sello del Archivo)
+========================= -->
+<footer>
+  Archivo sellado fuera del tiempo · Omni Archive
+</footer>
+
+<script>
+/* ======================================================
+   ESTADO GLOBAL PERSISTENTE
+====================================================== */
+const STATE = JSON.parse(localStorage.getItem("STATE")) || {
+  current: "ALL",
+  history: [],
+  corruption: 0
+};
+
+/* ======================================================
+   VIDEOS MP4 REALES
+====================================================== */
+const VIDEOS = {
+  DB: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+  DBZ: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+  DBS: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+  GT: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+  ALL: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+};
+
+/* ======================================================
+   RELIQUIAS / LOGROS
+====================================================== */
+const RELICS = {
+  explorador: {
+    name: "Ojo del Cronista",
+    desc: "Has explorado los registros del archivo."
+  },
+  viajero: {
+    name: "Ancla Temporal",
+    desc: "Has viajado entre universos."
+  },
+  corruptor: {
+    name: "Fragmento Prohibido",
+    desc: "Has cruzado líneas temporales."
+  },
+  archivista: {
+    name: "Sello del Archivo",
+    desc: "Has exportado el archivo completo."
+  }
+};
+
+let unlocked = JSON.parse(localStorage.getItem("RELICS")) || {};
+
+/* ======================================================
+   INICIALIZACIÓN
+====================================================== */
+renderRelics();
+setHeroVideo(VIDEOS[STATE.current]);
+
+/* ======================================================
+   VIDEO SEGURO
+====================================================== */
+function setHeroVideo(src) {
+  const v = document.getElementById("heroVideo");
+  v.pause();
+  v.innerHTML = `<source src="${src}" type="video/mp4">`;
+  v.load();
+  v.play().catch(() => {});
+}
+
+/* ======================================================
+   REGLA REAL DE CORRUPCIÓN
+====================================================== */
+function shouldCorrupt(next) {
+  return STATE.history.length > 0 &&
+    next !== STATE.current &&
+    STATE.current !== "ALL" &&
+    next !== "ALL";
+}
+
+/* ======================================================
+   CAMBIO DE UNIVERSO
+====================================================== */
+function changeUniverse(next) {
+  if (shouldCorrupt(next)) {
+    STATE.corruption++;
+    unlock("corruptor");
+    document.body.classList.add("corrupt");
+    setTimeout(() => document.body.classList.remove("corrupt"), 600);
+    speak("Las realidades se superponen. El archivo se resiente.");
+  }
+
+  if (!STATE.history.includes(next) && next !== "ALL") {
+    STATE.history.push(next);
+  }
+
+  STATE.current = next;
+  saveState();
+  setHeroVideo(VIDEOS[next]);
+  unlock("viajero");
+  speak("El cronista observa el universo " + next + ".");
+}
+
+/* ======================================================
+   BUSCADOR
+====================================================== */
+function handleSearch(v) {
+  if (v.length >= 3) {
+    unlock("explorador");
+  }
+}
+
+/* ======================================================
+   LOGROS
+====================================================== */
+function unlock(k) {
+  if (unlocked[k]) return;
+  unlocked[k] = true;
+  localStorage.setItem("RELICS", JSON.stringify(unlocked));
+  renderRelics();
+  speak("Reliquia recuperada: " + RELICS[k].name);
+}
+
+/* ======================================================
+   RENDER RELIQUIAS
+====================================================== */
+function renderRelics() {
+  const c = document.getElementById("relics");
+  c.innerHTML = "";
+  for (const k in RELICS) {
+    const r = document.createElement("div");
+    r.className = "relic" + (unlocked[k] ? " unlocked" : "");
+    r.innerHTML =
+      "<h4>" + RELICS[k].name + "</h4>" +
+      "<p>" + RELICS[k].desc + "</p>";
+    c.appendChild(r);
+  }
+}
+
+/* ======================================================
+   CRONISTA
+====================================================== */
+function speak(t) {
+  document.getElementById("cronista").textContent = t;
+}
+
+/* ======================================================
+   EXPORTAR ARCHIVO
+====================================================== */
+function exportFile() {
+  unlock("archivista");
+  const blob = new Blob(
+    [document.documentElement.outerHTML],
+    { type: "text/html" }
+  );
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "OMNI_ARCHIVO_EXPORTADO.html";
+  a.click();
+  speak("El archivo ha sido sellado y duplicado.");
+}
+
+/* ======================================================
+   GUARDAR ESTADO
+====================================================== */
+function saveState() {
+  localStorage.setItem("STATE", JSON.stringify(STATE));
+}
+</script>
+
 </body>
 </html>
